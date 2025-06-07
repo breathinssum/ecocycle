@@ -20,7 +20,7 @@
 	transition: transform 0.2s, box-shadow 0.3s;
 
 	.mission-label {
-		display: flex;
+		/* display: flex; */
 		position: relative;
 		padding: 8px 12px 5px 35px;
 		text-align: left;
