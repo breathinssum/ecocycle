@@ -1,0 +1,59 @@
+body {
+	justify-content: center;
+}
+
+.layout {
+	display: flex;
+	justify-content: center;
+	height: 100vh;
+	max-width: 1300px;
+}
+
+.sidebar {
+	display: flex;
+	flex-direction: column;
+	padding: 20px;
+	width: 15vh;
+	height: 50vh;
+	gap: 10px;
+	border-radius: 20px;
+	background-color: #eee;
+}
+
+.sidebar a {
+	display: flex;
+	align-items: center;
+	padding: 10px;
+	gap: 10px;
+	color: #333;
+	border-radius: 10px;
+	font-family: 'gSansM';
+}
+.EcoImg {
+	width: 30px;
+	height: 30px;
+	background: url(../../public/img/tree.png) center / contain no-repeat;
+}
+.PraImg {
+	width: 30px;
+	height: 30px;
+	background: url(../../public/img/pen.png) center / contain no-repeat;
+}
+
+
+.sidebar a:hover {
+	background-color: #ddd;
+}
+.sidebar .active {
+	background-color: #ddd;
+}
+
+.content {
+	flex: 1;
+	width: 85vw;
+}
+
+@font-face {
+    font-family: 'gSansM';
+    src: url('../font/GmarketSansTTFMedium.ttf') format('truetype');
+}

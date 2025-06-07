@@ -1,0 +1,30 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 180px;
+    height: 99px;
+    gap: 10px;
+}
+.logo {
+    width: 70px;
+    height: 70px;
+    transition: transform 1s ease;
+    background: url(../../public/img/logo.png) center / contain no-repeat;
+}
+.logo:hover {
+    transform: rotate(360deg);
+}
+.top {
+    font-size: 15px;
+    font-weight: bolder;
+    font-family: 'gSansB';
+}
+@font-face {
+    font-family: 'gSansB';
+    src: url('../font/GmarketSansTTFBold.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'gSansL';
+    src: url('../font/GmarketSansTTFLight.ttf') format('truetype');
+}
