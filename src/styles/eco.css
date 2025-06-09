@@ -74,13 +74,13 @@
 		}
 
 		p {
-			height: 60px;
+			height: 90px;
 			font-size: 20px;
 		}
 
 		p.result {
 			margin-top: 10px;
-			height: fit-content;
+			height: 20px;
 			font-size: 18px;
 			font-weight: bold;
 		}
