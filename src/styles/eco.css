@@ -136,7 +136,7 @@
 		font-family: 'gSansM';
 		font-size: 15px;
 
-		h2 {			
+		h2 {
 			font-family: 'gSansB';
 			font-size: 22px;
 		}
@@ -145,31 +145,31 @@
 
 
 .explanation-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.4);
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .explanation-popup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 16px 20px;
-  width: 300px;
-  height: 150px;
-  background: #ffbfb4;
-  border: 1px solid #ff774d;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  z-index: 1;
-  animation: fadeIn 0.3s ease-in-out;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	padding: 16px 20px;
+	width: 300px;
+	height: 150px;
+	background: #ffbfb4;
+	border: 1px solid #ff774d;
+	border-radius: 10px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	z-index: 1;
+	animation: fadeIn 0.3s ease-in-out;
 }
 
 .explanation-popup p {
@@ -187,4 +187,101 @@
 	font-size: 16px;
 	color: #888;
 	cursor: pointer;
+}
+
+
+@media (max-width: 768px) {
+	.section1 {
+		width: 100%;
+		height: 300px;
+	}
+
+	.section1>a div {
+		font-size: 8px;
+	}
+
+	.section1>a div .newsT {
+		font-size: 10px;
+		right: 5px;
+		bottom: 5px;
+	}
+
+	.navigation {
+		margin-top: 15px;
+		gap: 6px;
+	}
+
+	.navigation button {
+		width: 16px;
+		height: 16px;
+	}
+
+	.Section2 {
+		display: block;
+		width: 100%;
+
+		.quiz-section {
+			padding: 20px 20px 40px 20px;
+			width: 92.5%;
+			height: fit-content;
+
+			h2 {
+				font-size: 24px;
+			}
+
+			p {
+				font-size: 16px;
+				height: auto;
+			}
+
+			p.result {
+				font-size: 16px;
+			}
+
+			.quiz-buttons {
+				gap: 10px;
+			}
+
+			.quiz-buttons button {
+				font-size: 20px;
+				padding: 8px 16px;
+				width: 20%;
+			}
+
+			.quiz-navigation {
+				gap: 10px;
+			}
+
+			.quiz-navigation button {
+				width: 20%;
+			}
+		}
+		.munji {
+			margin: 50px auto 50px;
+			padding: 20px;
+			width: 92.8%;
+			height: auto;
+			font-size: 15px;
+			max-height: none;
+		}
+
+		.munji h2 {
+			font-size: 20px;
+		}
+	
+		.explanation-popup {
+			width: 80%;
+			height: auto;
+			padding: 20px;
+		}
+	
+		.explanation-popup p {
+			font-size: 15px;
+			margin: 20px 0;
+		}
+	
+		.explanation-popup .close-btn {
+			font-size: 14px;
+		}
+	}
 }
