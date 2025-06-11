@@ -5,6 +5,7 @@ import Header from './components/header';
 import Eco from './pages/eco';
 import Practice from './pages/practice';
 import Hamberger from './components/hamberger';
+import Topbt from './components/mobileH';
 
 const App: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth <= 768);
@@ -22,11 +23,19 @@ const App: React.FC = () => {
     <Router>
       <div className="layout">
         <div className="LeftBox">
-          {isMobile ? <Hamberger /> : <>
-            <Header />
-            <Sidebar />
-          </>}
+          {isMobile ? (
+            <>
+              <Hamberger />
+              <Topbt />
+            </>
+          ) : (
+            <>
+              <Header />
+              <Sidebar />
+            </>
+          )}
         </div>
+
 
         <div className="content">
           <Routes>
