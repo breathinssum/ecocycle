@@ -6,6 +6,7 @@ import Eco from './pages/eco';
 import Practice from './pages/practice';
 import Hamberger from './components/hamberger';
 import Topbt from './components/mobileH';
+import Search from './pages/search';
 
 const App: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth <= 768);
@@ -41,6 +42,7 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/" element={<Eco />} />
             <Route path="/practice" element={<Practice />} />
+            <Route path="/search" element={<Search />} />
           </Routes>
         </div>
       </div>

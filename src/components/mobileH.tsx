@@ -11,7 +11,7 @@ const Topbt: React.FC = () => {
 	};
 
 	return (
-		<div className='logo' onClick={scrollToTop}></div>
+		<div className='logo mobile' onClick={scrollToTop}></div>
 	);
 };
 

@@ -15,6 +15,12 @@ const Sidebar: React.FC = () => {
       >
         <div className='PraImg'></div>Practice
       </NavLink>
+
+      <NavLink to="/search"
+        className={({ isActive }) => isActive ? 'active' : ''}
+      >
+        <div className='SeaImg'></div>Search
+      </NavLink>
     </div>
   );
 };

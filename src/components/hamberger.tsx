@@ -28,6 +28,11 @@ const Hamberger: React.FC = () => {
 						>
 							<div className='PraImg'></div>Practice
 						</NavLink></li>
+						<li><NavLink to="/search"
+							className={({ isActive }) => isActive ? 'active' : ''}
+						>
+							<div className='SeaImg'></div>Search
+						</NavLink></li>
 					</ul>
 				</nav>
 			)}

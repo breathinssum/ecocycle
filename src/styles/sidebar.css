@@ -39,6 +39,11 @@ body {
 	height: 30px;
 	background: url(../../public/img/pen.png) center / contain no-repeat;
 }
+.SeaImg {
+	width: 30px;
+	height: 30px;
+	background: url(../../public/img/search.png) center / contain no-repeat;
+}
 
 
 .sidebar a:hover {
