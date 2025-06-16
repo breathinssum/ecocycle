@@ -46,7 +46,16 @@ const Search: React.FC = () => {
     setSearchKeyword(keyword);
   };
 
-  // 지도 그리기
+  // 맨 처음 로드되거나 탭 이동 시 "서울 + selectedTab" 자동 검색
+  useEffect(() => {
+    if (!isMapLoaded) return;
+
+    // 사용자가 location을 입력하지 않았더라도, 자동으로 "서울 + 선택된 탭"으로 검색
+    setSearchKeyword(`서울 ${selectedTab}`);
+  }, [isMapLoaded, selectedTab]);
+
+
+  // 검색 키워드가 있을 때만 검색 결과 지도에 표시
   useEffect(() => {
     if (!isMapLoaded || !searchKeyword) return;
 
@@ -68,13 +77,11 @@ const Search: React.FC = () => {
           const position = new window.kakao.maps.LatLng(place.y, place.x);
           const marker = new window.kakao.maps.Marker({ map, position });
 
-          // Kakao 지도 바로가기 링크
           const link = `https://map.kakao.com/link/map/${place.place_name},${place.y},${place.x}`;
           const infowindow = new window.kakao.maps.InfoWindow({
             content: `<div style="padding:5px; font-size:14px;"><a href="${link}" target="_blank">${place.place_name}</a></div>`,
           });
 
-          // 마커 클릭 시 인포윈도우 열기
           window.kakao.maps.event.addListener(marker, 'click', () => {
             infowindow.open(map, marker);
           });
@@ -86,6 +93,8 @@ const Search: React.FC = () => {
       }
     });
   }, [isMapLoaded, searchKeyword]);
+
+
 
 
   return (
@@ -107,7 +116,7 @@ const Search: React.FC = () => {
         <div className="search-bar">
           <input
             type="text"
-            placeholder="예: 노원구, 종로구"
+            placeholder="검색창에 지역만 입력해주세요.  예) 서울, 대구"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
           />
@@ -115,7 +124,7 @@ const Search: React.FC = () => {
         </div>
 
         <div className="result-placeholder">
-          <div ref={mapRef} id="map" style={{ width: '100%', height: '400px' }} />
+          <div ref={mapRef} id="map" />
         </div>
       </div>
     </>
