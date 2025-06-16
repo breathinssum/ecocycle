@@ -12,32 +12,43 @@ const Search: React.FC = () => {
   const [selectedTab, setSelectedTab] = useState('환경센터');
   const [location, setLocation] = useState('');
   const [searchKeyword, setSearchKeyword] = useState('');
+  const [isMapLoaded, setIsMapLoaded] = useState(false);
   const mapRef = useRef<HTMLDivElement>(null);
-  const [isMapReady, setIsMapReady] = useState(false);
 
   const tabs = ['환경센터', '공원', '업사이클링 매장'];
 
-  // Kakao 지도 스크립트 로드
+  // Kakao 지도 SDK 로드
   useEffect(() => {
     const scriptId = 'kakao-map-script';
     if (document.getElementById(scriptId)) {
-      setIsMapReady(true);
+      setIsMapLoaded(true);
       return;
     }
 
     const script = document.createElement('script');
     script.id = scriptId;
-    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=cfda5a6c4d0da78e78e9de23b865a907&libraries=services`;
+    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=cfda5a6c4d0da78e78e9de23b865a907&autoload=false&libraries=services`;
     script.onload = () => {
-      setIsMapReady(true);
-      console.log('Kakao Map script loaded');
+      window.kakao.maps.load(() => {
+        console.log('Kakao SDK loaded');
+        setIsMapLoaded(true);
+      });
     };
     document.head.appendChild(script);
   }, []);
 
-  // 지도 생성 및 장소 검색
+  // 검색 버튼 클릭 시 실행
+  const handleSearch = () => {
+    if (location.trim() === '') return;
+
+    // 탭에 따라 키워드 다르게 설정 가능
+    const keyword = `${location} ${selectedTab}`;
+    setSearchKeyword(keyword);
+  };
+
+  // 지도 그리기
   useEffect(() => {
-    if (!isMapReady || !searchKeyword || !window.kakao) return;
+    if (!isMapLoaded || !searchKeyword) return;
 
     const container = mapRef.current;
     if (!container) return;
@@ -55,19 +66,27 @@ const Search: React.FC = () => {
 
         data.forEach((place: any) => {
           const position = new window.kakao.maps.LatLng(place.y, place.x);
-          new window.kakao.maps.Marker({ map, position });
+          const marker = new window.kakao.maps.Marker({ map, position });
+
+          // Kakao 지도 바로가기 링크
+          const link = `https://map.kakao.com/link/map/${place.place_name},${place.y},${place.x}`;
+          const infowindow = new window.kakao.maps.InfoWindow({
+            content: `<div style="padding:5px; font-size:14px;"><a href="${link}" target="_blank">${place.place_name}</a></div>`,
+          });
+
+          // 마커 클릭 시 인포윈도우 열기
+          window.kakao.maps.event.addListener(marker, 'click', () => {
+            infowindow.open(map, marker);
+          });
+
           bounds.extend(position);
         });
 
         map.setBounds(bounds);
       }
     });
-  }, [isMapReady, searchKeyword]);
+  }, [isMapLoaded, searchKeyword]);
 
-  const handleSearch = () => {
-    if (!location.trim()) return;
-    setSearchKeyword(`${location} ${selectedTab}`);
-  };
 
   return (
     <>
