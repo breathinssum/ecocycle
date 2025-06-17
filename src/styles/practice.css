@@ -91,3 +91,13 @@
 	margin-top: 10px;
 	font-size: 15px;
 }
+
+
+@media (max-width: 768px) { 
+	.section3 {
+		display: block;
+	}
+	.checkBox {
+		margin-bottom: 20px;
+	}
+}

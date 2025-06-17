@@ -4,4 +4,6 @@
     right: 20px;
     width: 150px;
     height: 150px;
+    cursor: pointer;
+    z-index: 2;
 }

@@ -60,3 +60,20 @@
     height: 400px;
   }
 }
+
+@media (max-width: 768px) {
+  .result-placeholder {
+    #map {
+      width: 100%;
+      height: 500px;
+    }
+  }
+
+  .search {
+    padding: 20px 0px;
+  }
+
+  .tab-button {
+    font-size: 1rem;
+  }
+}
