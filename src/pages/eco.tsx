@@ -1,12 +1,33 @@
 import React, { useState, useEffect } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
 import Title from '../components/title';
 import '../styles/eco.css';
 import axios from 'axios';
+import { Swiper as SwiperType } from 'swiper';
+import { useRef } from 'react';
+
+
+
+// 기존 newsList 그대로 사용 가능
+
 
 const Eco: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [quizIndex, setQuizIndex] = useState<number>(0); // 현재 퀴즈 번호
   const [userAnswers, setUserAnswers] = useState<(boolean | null)[]>(Array(5).fill(null)); // 사용자의 OX 선택 결과 저장
+
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const swiperRef = useRef<SwiperType | null>(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768); // 모바일 기준
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const newsList = [
     { id: 1, title: '대기 오염: 침묵의 살인자는 어떻게 우리 건강을 해치나', link: 'https://www.bbc.com/korean/articles/cwyx0y07d1do', image: '/img/pic2.webp' },
@@ -15,6 +36,14 @@ const Eco: React.FC = () => {
     { id: 4, title: '"민가로 번질라"…대구 산불, 야간 방화선 구축 안간힘', link: 'https://www.yna.co.kr/view/AKR20250428125553053?section=society/all&site=topnews01', image: '/img/pic1.jpg' },
     { id: 5, title: '강물에 버려진 약물, 전 세계 보건 위협한다', link: 'https://www.bbc.com/korean/international-60398956', image: '/img/pic3.webp' }
   ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev === newsList.length - 1 ? 0 : prev + 1));
+    }, 10000);
+
+    return () => clearInterval(interval);
+  }, [newsList.length]);
 
 
   // OX 퀴즈 문제 데이터
@@ -106,31 +135,95 @@ const Eco: React.FC = () => {
 
       {/* 뉴스 슬라이드 */}
       <div className="section1">
-        {newsList.map((item, index) => (
-          <a href={item.link} target="_blank" rel="noopener noreferrer">
-            <div
-              key={item.id}
-              className="news-item"
-              style={{
-                display: currentIndex === index ? 'block' : 'none',
-                background: `url(${item.image}) center / cover no-repeat`
-              }}
-            >
-              <div className='newsT'>
-                {item.title}
-              </div>
-            </div>
-          </a>
-        ))}
-      </div>
+        {isMobile ? (
+          <Swiper
+            onSwiper={(swiper) => (swiperRef.current = swiper)}
+            onSlideChange={(swiper) => setCurrentIndex(swiper.realIndex)}
+            spaceBetween={10}
+            slidesPerView={1}
+            className="news-swiper"
+          >
+            {newsList.map((item) => (
+              <SwiperSlide key={item.id}>
+                <a href={item.link} target="_blank" rel="noopener noreferrer">
+                  <div
+                    className="news-item"
+                    style={{
+                      background: `url(${item.image}) center / cover no-repeat`,
+                    }}
+                  >
+                    <div className='newsT'>{item.title}</div>
+                  </div>
+                </a>
+              </SwiperSlide>
+            ))}
 
-      <div className="navigation">
-        <button className='nobg' onClick={() => setCurrentIndex((prev) => (prev === 0 ? newsList.length - 1 : prev - 1))}>&lt;</button>
-        {newsList.map((_, index) => (
-          <button key={index} onClick={() => setCurrentIndex(index)} className={currentIndex === index ? 'active' : ''}></button>
-        ))}
-        <button className='nobg' onClick={() => setCurrentIndex((prev) => (prev === newsList.length - 1 ? 0 : prev + 1))}>&gt;</button>
-      </div>
+            {/* ✅ 모바일에서도 네비게이션 버튼 표시 */}
+            <div className="navigation">
+              <button
+                className="nobg"
+                onClick={() => {
+                  const newIndex = currentIndex === 0 ? newsList.length - 1 : currentIndex - 1;
+                  swiperRef.current?.slideTo(newIndex);
+                  setCurrentIndex(newIndex);
+                }}
+              >
+                &lt;
+              </button>
+
+              {newsList.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => {
+                    swiperRef.current?.slideTo(index); // ✅ 슬라이드 이동 추가!
+                    setCurrentIndex(index);
+                  }}
+                  className={currentIndex === index ? 'active' : ''}
+                ></button>
+              ))}
+
+              <button
+                className="nobg"
+                onClick={() => {
+                  const newIndex = currentIndex === newsList.length - 1 ? 0 : currentIndex + 1;
+                  swiperRef.current?.slideTo(newIndex);
+                  setCurrentIndex(newIndex);
+                }}
+              >
+                &gt;
+              </button>
+            </div>
+
+          </Swiper>
+
+        ) : (
+          <>
+            <div className="news-slides">
+              {newsList.map((item, index) => (
+                <a href={item.link} target="_blank" rel="noopener noreferrer" key={item.id}>
+                  <div
+                    className="news-item"
+                    style={{
+                      display: currentIndex === index ? 'block' : 'none',
+                      background: `url(${item.image}) center / cover no-repeat`
+                    }}
+                  >
+                    <div className='newsT'>{item.title}</div>
+                  </div>
+                </a>
+              ))}
+            </div>
+
+            <div className="navigation">
+              <button className='nobg' onClick={() => setCurrentIndex((prev) => (prev === 0 ? newsList.length - 1 : prev - 1))}>&lt;</button>
+              {newsList.map((_, index) => (
+                <button key={index} onClick={() => setCurrentIndex(index)} className={currentIndex === index ? 'active' : ''}></button>
+              ))}
+              <button className='nobg' onClick={() => setCurrentIndex((prev) => (prev === newsList.length - 1 ? 0 : prev + 1))}>&gt;</button>
+            </div>
+          </>
+        )}
+      </div >
 
       <div className='Section2'>
         {/* OX 퀴즈 섹션 */}
