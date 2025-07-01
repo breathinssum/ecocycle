@@ -203,6 +203,7 @@ const Eco: React.FC = () => {
                 <a href={item.link} target="_blank" rel="noopener noreferrer" key={item.id}>
                   <div
                     className="news-item"
+                    
                     style={{
                       display: currentIndex === index ? 'block' : 'none',
                       background: `url(${item.image}) center / cover no-repeat`
